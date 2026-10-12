@@ -1,5 +1,6 @@
 import psycopg
 import streamlit as st
+from zoneinfo import ZoneInfo
 
 st.set_page_config(page_title="最新公告", page_icon="📢")
 st.title("📢 最新公告")
@@ -20,7 +21,8 @@ if announcements:
     for title, content, created_at in announcements:
         st.subheader(title)
         st.write(content)
-        st.caption(f"發布時間：{created_at:%Y-%m-%d %H:%M}")
+        local_time = created_at.astimezone(ZoneInfo("Asia/Taipei"))
+        st.caption(f"發布時間：{local_time:%Y-%m-%d %H:%M}（台灣時間）")
         st.divider()
 else:
     st.info("目前沒有公告")
